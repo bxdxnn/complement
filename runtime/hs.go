@@ -3,8 +3,8 @@ package runtime
 import (
 	"context"
 
-	"github.com/docker/docker/client"
 	"github.com/matrix-org/complement/ct"
+	"github.com/moby/moby/client"
 )
 
 const (
@@ -18,8 +18,11 @@ var Homeserver string
 
 // ContainerKillFunc is used to destroy a container, it can be overwritten by Homeserver implementations
 // to e.g. gracefully stop a container.
-var ContainerKillFunc = func(client *client.Client, containerID string) error {
-	return client.ContainerKill(context.Background(), containerID, "KILL")
+var ContainerKillFunc = func(cli *client.Client, containerID string) error {
+	_, err := cli.ContainerKill(context.Background(), containerID, client.ContainerKillOptions{
+		Signal: "SIGKILL",
+	})
+	return err
 }
 
 // Skip the test (via t.Skipf) if the homeserver being tested matches one of the homeservers, else return.

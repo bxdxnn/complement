@@ -6,8 +6,7 @@ package runtime
 import (
 	"context"
 
-	"github.com/docker/docker/api/types/container"
-	"github.com/docker/docker/client"
+	"github.com/moby/moby/client"
 )
 
 func init() {
@@ -16,7 +15,7 @@ func init() {
 	// extract e.g. coverage reports.
 	ContainerKillFunc = func(client *client.Client, containerID string) error {
 		oneSecond := 1
-		return client.ContainerStop(context.Background(), containerID, container.StopOptions{
+		return client.ContainerStop(context.Background(), containerID, client.ContainerStopOptions{
 			Timeout: &oneSecond,
 		})
 	}

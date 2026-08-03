@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/docker/docker/api/types/container"
 	"github.com/matrix-org/complement/internal/docker"
+	"github.com/moby/moby/api/types/container"
 )
 
 type Snapshot struct {
